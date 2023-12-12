@@ -1,6 +1,6 @@
 specVersion: 0.0.5
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: CollaNFT
@@ -23,11 +23,11 @@ dataSources:
         - URI
       abis:
         - name: CollaNFT
-          file: ./abis/CollaNFT.json
+          file: CollaNFT/abis/CollaNFT.json
       eventHandlers:
         - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTransferSingle
-      file: ./src/colla-nft.ts
+      file: CollaNFT/CollaNFT.wasm
   - kind: ethereum
     name: NFT1155PatreonV1
     network: mumbai
@@ -45,7 +45,7 @@ dataSources:
         - SellKey
       abis:
         - name: NFT1155PatreonV1
-          file: ./abis/NFT1155PatreonV1.json
+          file: NFT1155PatreonV1/abis/NFT1155PatreonV1.json
       eventHandlers:
         - event: BuyKey((address,uint256,uint256,uint256,uint256,uint256,uint256,uint256))
           handler: handleBuyKey
@@ -53,4 +53,4 @@ dataSources:
           handler: handleRoyaltyClaimed
         - event: SellKey((address,uint256,uint256,uint256,uint256,uint256,uint256,uint256))
           handler: handleSellKey
-      file: ./src/nft-1155-patreon-v-1.ts
+      file: NFT1155PatreonV1/NFT1155PatreonV1.wasm
