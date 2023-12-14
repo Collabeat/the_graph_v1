@@ -64,6 +64,54 @@ export class BuyKeyBuyStruct extends ethereum.Tuple {
   }
 }
 
+export class Dividend extends ethereum.Event {
+  get params(): Dividend__Params {
+    return new Dividend__Params(this);
+  }
+}
+
+export class Dividend__Params {
+  _event: Dividend;
+
+  constructor(event: Dividend) {
+    this._event = event;
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+}
+
+export class DividendClaimed extends ethereum.Event {
+  get params(): DividendClaimed__Params {
+    return new DividendClaimed__Params(this);
+  }
+}
+
+export class DividendClaimed__Params {
+  _event: DividendClaimed;
+
+  constructor(event: DividendClaimed) {
+    this._event = event;
+  }
+
+  get claimant(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+}
+
 export class RoyaltyClaimed extends ethereum.Event {
   get params(): RoyaltyClaimed__Params {
     return new RoyaltyClaimed__Params(this);

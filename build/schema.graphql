@@ -1,17 +1,23 @@
 type User @entity {
   id: ID!
-  tokens: [Token!]! @derivedFrom(field: "owner")
+  tokens: [TokenUserRegistry!]! @derivedFrom(field: "user")
   patreon: [Patreon!]! @derivedFrom(field: "subscriber")
   transaction: [Transaction!]! @derivedFrom(field: "address")
+}
+
+type TokenUserRegistry @entity {
+  id: ID!
+  token: Token!
+  user: User!
 }
 
 type Token @entity {
   id: ID!
   tokenId: BigInt!
-  metadataURI: String!
+  metadataURI: String
   createdAtTimestamp: BigInt!
   lastBlockNumber: BigInt!
-  owner: User!
+  owners: [TokenUserRegistry!]! @derivedFrom(field: "token")
   latestPrice: BigInt!
 }
 

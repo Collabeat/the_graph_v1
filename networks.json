@@ -1,11 +1,11 @@
 {
   "mumbai": {
     "CollaNFT": {
-      "address": "0x320cfcF59D9A1263899d16C0F14AfB5e468Dc218",
+      "address": "0xDc85Ea80f75aD4D4365aCd2d329bF98eaabf2f8E",
       "startBlock": 43485952
     },
     "NFT1155PatreonV1": {
-      "address": "0x63367407c7b56afD8D5c85728E5186c507D8E259"
+      "address": "0x69AfB8a77b2d119Df8BE8a34fdBB396b4951B15E"
     }
   }
 }

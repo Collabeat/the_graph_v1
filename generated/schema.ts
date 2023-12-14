@@ -50,8 +50,12 @@ export class User extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get tokens(): TokenLoader {
-    return new TokenLoader("User", this.get("id")!.toString(), "tokens");
+  get tokens(): TokenUserRegistryLoader {
+    return new TokenUserRegistryLoader(
+      "User",
+      this.get("id")!.toString(),
+      "tokens"
+    );
   }
 
   get patreon(): PatreonLoader {
@@ -64,6 +68,76 @@ export class User extends Entity {
       this.get("id")!.toString(),
       "transaction"
     );
+  }
+}
+
+export class TokenUserRegistry extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TokenUserRegistry entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type TokenUserRegistry must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("TokenUserRegistry", id.toString(), this);
+    }
+  }
+
+  static loadInBlock(id: string): TokenUserRegistry | null {
+    return changetype<TokenUserRegistry | null>(
+      store.get_in_block("TokenUserRegistry", id)
+    );
+  }
+
+  static load(id: string): TokenUserRegistry | null {
+    return changetype<TokenUserRegistry | null>(
+      store.get("TokenUserRegistry", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get token(): string {
+    let value = this.get("token");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set token(value: string) {
+    this.set("token", Value.fromString(value));
+  }
+
+  get user(): string {
+    let value = this.get("user");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set user(value: string) {
+    this.set("user", Value.fromString(value));
   }
 }
 
@@ -119,17 +193,21 @@ export class Token extends Entity {
     this.set("tokenId", Value.fromBigInt(value));
   }
 
-  get metadataURI(): string {
+  get metadataURI(): string | null {
     let value = this.get("metadataURI");
     if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
+      return null;
     } else {
       return value.toString();
     }
   }
 
-  set metadataURI(value: string) {
-    this.set("metadataURI", Value.fromString(value));
+  set metadataURI(value: string | null) {
+    if (!value) {
+      this.unset("metadataURI");
+    } else {
+      this.set("metadataURI", Value.fromString(<string>value));
+    }
   }
 
   get createdAtTimestamp(): BigInt {
@@ -158,17 +236,12 @@ export class Token extends Entity {
     this.set("lastBlockNumber", Value.fromBigInt(value));
   }
 
-  get owner(): string {
-    let value = this.get("owner");
-    if (!value || value.kind == ValueKind.NULL) {
-      throw new Error("Cannot return null for a required field.");
-    } else {
-      return value.toString();
-    }
-  }
-
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
+  get owners(): TokenUserRegistryLoader {
+    return new TokenUserRegistryLoader(
+      "Token",
+      this.get("id")!.toString(),
+      "owners"
+    );
   }
 
   get latestPrice(): BigInt {
@@ -371,7 +444,7 @@ export class Patreon extends Entity {
   }
 }
 
-export class TokenLoader extends Entity {
+export class TokenUserRegistryLoader extends Entity {
   _entity: string;
   _field: string;
   _id: string;
@@ -383,9 +456,9 @@ export class TokenLoader extends Entity {
     this._field = field;
   }
 
-  load(): Token[] {
+  load(): TokenUserRegistry[] {
     let value = store.loadRelated(this._entity, this._id, this._field);
-    return changetype<Token[]>(value);
+    return changetype<TokenUserRegistry[]>(value);
   }
 }
 
