@@ -6,7 +6,7 @@ dataSources:
     name: CollaNFT
     network: mumbai
     source:
-      address: "0xDc85Ea80f75aD4D4365aCd2d329bF98eaabf2f8E"
+      address: "0x5579FB0b68b00eeAB60331cC441573a17895574F"
       abi: CollaNFT
       startBlock: 43485952
     mapping:
@@ -32,7 +32,7 @@ dataSources:
     name: NFT1155PatreonV1
     network: mumbai
     source:
-      address: "0x69AfB8a77b2d119Df8BE8a34fdBB396b4951B15E"
+      address: "0x23bED052ab394188Fd3aCd7a9CCB14C762F4cC89"
       abi: NFT1155PatreonV1
       startBlock: 43485965
     mapping:
